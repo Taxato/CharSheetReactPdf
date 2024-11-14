@@ -17,6 +17,7 @@ export default function SelectSpells() {
 			else return [];
 		},
 	);
+
 	function handleSelectSpell({ target }: ChangeEvent<HTMLInputElement>) {
 		const checked = target.checked;
 		if (checked) {
@@ -40,7 +41,8 @@ export default function SelectSpells() {
 	}, [selectedSpellIndeces]);
 
 	useEffect(() => {
-		if (spells.length > 0) return;
+		// UNCOMMENT TO STOP FETCHING ON REFRESH
+		// if (spells.length > 0) return;
 		getAllSpells().then(spells => {
 			setSpells(spells);
 			localStorage.setItem("spells", JSON.stringify(spells));
@@ -101,7 +103,7 @@ function SpellCard({
 	return (
 		<li
 			key={spell.index}
-			className="mb-2 inline-block select-none">
+			className="mb-2 inline-block w-full select-none">
 			<input
 				id={spell.index}
 				type="checkbox"
@@ -147,7 +149,7 @@ function SpellCard({
 					</span>
 				</div>
 				<p className="custom-scrollbar mt-1 text-xs">
-					{spell.desc}
+					{spell.shortDesc}
 					{spell.higher_level.length > 0 && (
 						<>
 							<br />

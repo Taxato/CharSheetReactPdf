@@ -3,7 +3,7 @@ import type { Spell } from "./api";
 import Diamond from "./Diamond";
 import { charInfo } from "./charInfo";
 
-export default function SpellListPdf({ spells }: { spells: Spell[] }) {
+export default function SpellList({ spells }: { spells: Spell[] }) {
 	return (
 		<View>
 			<SpellListHeader />
@@ -52,17 +52,20 @@ function SpellItem({ spell }: { spell: Spell }) {
 	if (spell.level === 0 && spell.damage?.damage_at_character_level) {
 		for (const lvl of Object.keys(spell.damage.damage_at_character_level)) {
 			if (Number(lvl) <= charInfo.level)
-				dmg = `${spell.damage.damage_at_character_level[Number(lvl)]} ${spell.damage.damage_type.name}`;
+				dmg = `${spell.damage.damage_at_character_level[Number(lvl)]} ${spell.damage.damage_type?.name || "Chosen"} Damage`;
 		}
-	} else if (spell.damage?.damage_at_slot_level) {
-		dmg = `Slot level: Damage | ${Object.entries(
-			spell.damage.damage_at_slot_level,
-		)
-			.map(([slotLevel, damage]) => {
-				return `${slotLevel}: ${damage}`;
-			})
-			.join(" | ")}`;
 	}
+	// 	}
+	// } else if (spell.damage?.damage_at_slot_level) {
+	// 	dmg = `Slot level: Damage | ${Object.entries(
+	// 		spell.damage.damage_at_slot_level,
+	// 	)
+	// 		.map(([slotLevel, damage]) => {
+	// 			return `${slotLevel}: ${damage}`;
+	// 		})
+	// 		.join(" | ")}`;
+	// }
+	// if (spell.index === "chromatic-orb") console.log(spell, dmg);
 
 	return (
 		<View
@@ -122,7 +125,11 @@ function SpellItem({ spell }: { spell: Spell }) {
 					{spell.range}
 				</Text>
 			</View>
-			{dmg ? <Text style={{ fontSize: 8 }}>{dmg}</Text> : null}
+			<Text style={{ fontSize: 8 }}>
+				{spell.shortDesc && spell.shortDesc}
+				&nbsp;
+				{dmg ? `Damage at current level: ${dmg}` : null}
+			</Text>
 		</View>
 	);
 }
