@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import * as cheerio from "cheerio";
+import * as cm from "closest-match";
 import FormData from "form-data";
 
 const axiosClient = axios.create({
@@ -37,7 +38,7 @@ export async function getSpellDescriptions() {
 				.slice(1, -1)
 				.map(child => $(child).text().trim());
 			return {
-				index: cols[0].split(" ").join("-").toLowerCase(),
+				name: cols[0],
 				desc: cols[8],
 			};
 		})
@@ -47,7 +48,7 @@ export async function getSpellDescriptions() {
 }
 
 export type SpellDescription = {
-	index: string;
+	name: string;
 	// level: number;
 	// school: string;
 	// duration: string;
@@ -59,7 +60,7 @@ export type SpellDescription = {
 };
 
 export async function getAllSpells() {
-	const shortDescriptions = await getSpellDescriptions();
+	const spellDescriptions = await getSpellDescriptions();
 	const res = await axiosClient.get(
 		"/api/spells?level=0&level=1&level=2&level=3&level=4",
 	);
@@ -74,9 +75,13 @@ export async function getAllSpells() {
 	spells.push(...manualEntries);
 
 	spells.forEach(spell => {
-		const shortDesc = shortDescriptions.find(d =>
-			d.index.match(new RegExp(spell.index)),
-		)?.desc;
+		const shortDesc = spellDescriptions.find(desc => {
+			const closestMatch = cm.closestMatch(
+				spell.name,
+				spellDescriptions.map(d => d.name),
+			);
+			return desc.name === closestMatch;
+		})?.desc;
 		if (shortDesc) spell.shortDesc = shortDesc;
 		return spell;
 	});

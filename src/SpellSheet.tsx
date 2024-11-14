@@ -29,9 +29,6 @@ function SpellSheetHeader({ charInfo }: { charInfo: CharInfo }) {
 				<Text style={{ textAlign: "center", fontSize: 15 }}>
 					Spell Slots
 				</Text>
-				<Text style={{ fontSize: 10 }}>
-					Number of prepared slots: {charInfo.preparedSlots}
-				</Text>
 
 				{Object.entries(charInfo.spellSlots).map(
 					([level, numSlots]) => (
@@ -46,6 +43,13 @@ function SpellSheetHeader({ charInfo }: { charInfo: CharInfo }) {
 
 			{/* ABILITY SCORES */}
 			<View style={styles.abilityContainer}>
+				<View style={styles.abilityBox}>
+					<Text style={styles.abilityText}>Prepared spells:</Text>
+					<View style={styles.abilityNumber}>
+						<Text>{charInfo.preparedSpells}</Text>
+					</View>
+				</View>
+
 				<View style={styles.abilityBox}>
 					<Text style={styles.abilityText}>
 						Spellcasting Modifier:
@@ -207,12 +211,12 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		border: "1px solid black",
-		width: 30,
-		height: 30,
-		fontSize: 12,
+		width: 25,
+		height: 25,
+		fontSize: 10,
 		fontWeight: "bold",
 		padding: 3,
-		borderRadius: 10,
+		borderRadius: 5,
 	},
 
 	activeSpellsContainer: {

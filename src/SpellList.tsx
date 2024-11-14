@@ -69,6 +69,7 @@ function SpellItem({ spell }: { spell: Spell }) {
 
 	return (
 		<View
+			wrap={false}
 			style={{
 				borderBottom: "1px solid black",
 			}}>
@@ -125,11 +126,7 @@ function SpellItem({ spell }: { spell: Spell }) {
 					{spell.range}
 				</Text>
 			</View>
-			<Text style={{ fontSize: 8 }}>
-				{spell.shortDesc && spell.shortDesc}
-				&nbsp;
-				{dmg ? `Damage at current level: ${dmg}` : null}
-			</Text>
+			<Text style={{ fontSize: 8 }}>{spell.shortDesc}</Text>
 		</View>
 	);
 }

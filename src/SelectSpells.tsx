@@ -149,7 +149,7 @@ function SpellCard({
 					</span>
 				</div>
 				<p className="custom-scrollbar mt-1 text-xs">
-					{spell.shortDesc}
+					{spell.shortDesc || "MISSING DESC"}
 					{spell.higher_level.length > 0 && (
 						<>
 							<br />

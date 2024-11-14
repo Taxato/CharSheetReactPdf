@@ -1,6 +1,6 @@
 export const charInfo: CharInfo = {
 	level: 7,
-	preparedSlots: 13,
+	preparedSpells: 11,
 	spellSlots: {
 		1: 4,
 		2: 3,
@@ -15,7 +15,7 @@ export const charInfo: CharInfo = {
 
 export type CharInfo = {
 	level: number;
-	preparedSlots: number;
+	preparedSpells: number;
 	spellSlots: Record<number, number>;
 	spellCastModifier: number;
 	spellSaveDc: number;
